@@ -11,7 +11,8 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using System.Globalization;
 using Microsoft.EntityFrameworkCore;
-
+using System.Collections.Generic;
+using System.Linq;
 
 public class DataImportService : BackgroundService
 {
@@ -40,7 +41,7 @@ public class DataImportService : BackgroundService
             {
                 _logger.LogError($"An error occurred during the data import process: {ex.Message}");
             }
-            await Task.Delay(TimeSpan.FromHours(24), stoppingToken);
+            await Task.Delay(TimeSpan.FromHours(24), stoppingToken); // Repeat every 24 hours
         }
     }
 
@@ -85,7 +86,6 @@ public class DataImportService : BackgroundService
 
         throw new InvalidOperationException("No CSV file found in the downloaded ZIP.");
     }
-
 
     private async Task ImportDataToDatabaseAsync(Stream tickerStream, Stream priceStream)
     {
@@ -136,5 +136,4 @@ public class DataImportService : BackgroundService
         dbContext.Set<T>().AddRange(records);
         await dbContext.SaveChangesAsync();
     }
-
 }

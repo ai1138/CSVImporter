@@ -22,7 +22,7 @@ public class TradingContext : DbContext
 
         // Primary key for the Sectors table
         modelBuilder.Entity<Sector>()
-            .HasKey(s => s.SICCode);
+            .HasKey(s => s.SIID);
 
         // Primary key for the Tickers table
         modelBuilder.Entity<Ticker>()

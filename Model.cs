@@ -15,6 +15,8 @@ public class Exchange
 
 public class Sector
 {
+    public Guid SIID { get; set; } = Guid.NewGuid();    
+    
     [Name("siccode")]
     public int SICCode { get; set; }
 

@@ -6,37 +6,38 @@ CREATE TABLE EXCHANGES (
 
 -- Create the Sectors Table
 CREATE TABLE SECTORS (
-    SICCode INT PRIMARY KEY,
+    SIID uniqueidentifier PRIMARY KEY,
+    SICCode INT,
     SICSector VARCHAR(100)
 );
 
 -- Create the Tickers Table
-CREATE TABLE TICKERS (
-    PermTicker INT PRIMARY KEY,
+CREATE TABLE TICKERS 
+    PermaTicker INT PRIMARY KEY,
     Ticker VARCHAR(10) NOT NULL,
     Name VARCHAR(255),
     Category VARCHAR(100),
     CUSIPs VARCHAR(50),
-    SICCode INT,
+    SIID uniqueidentifier,
     Location VARCHAR(255),
     CompanySite VARCHAR(255),
-    FOREIGN KEY (SICCode) REFERENCES SECTORS(SICCode),
+    FOREIGN KEY (SIID) REFERENCES SECTORS(SIID),
     UNIQUE (Ticker)  -- Ensures Ticker is unique and can be referenced by foreign keys
 );
 
 -- Create the Ticker Exchanges Junction Table
 CREATE TABLE TICKER_EXCHANGES (
-    PermTicker INT,
+    PermaTicker INT,
     ExchangeID INT,
     IsDelisted CHAR(1),
-    FOREIGN KEY (PermTicker) REFERENCES TICKERS(PermTicker),
+    FOREIGN KEY (PermaTicker) REFERENCES TICKERS(PermaTicker),
     FOREIGN KEY (ExchangeID) REFERENCES EXCHANGES(ExchangeID),
-    PRIMARY KEY (PermTicker, ExchangeID)
+    PRIMARY KEY (PermaTicker, ExchangeID)
 );
 
 -- Create the Stock History Table
 CREATE TABLE STOCK_HISTORY (
-    PermTicker INT,
+    PermaTicker INT,
     LastUpdated DATE,
     FirstAdded DATE,
     FirstPriceDate DATE,
@@ -44,7 +45,7 @@ CREATE TABLE STOCK_HISTORY (
     FirstQuarter DATE,
     LastQuarter DATE,
     SECFilings VARCHAR(255),
-    FOREIGN KEY (PermTicker) REFERENCES TICKERS(PermTicker)
+    FOREIGN KEY (PermaTicker) REFERENCES TICKERS(PermaTicker)
 );
 
 -- Create the Prices Table
